@@ -2,6 +2,7 @@ package com.pluralsight.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.Hibernate;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,11 +19,16 @@ public class Author {
     private Long id;
     private String firstname;
     private String lastname;
+    @JsonIgnore
     private String username;
+    @JsonIgnore
     private String password;
+    @OneToMany
+    private List<Post> posts;
 
     public Author() {
         super();
+        this.posts = new ArrayList<Post>();
     }
 
     public Author(String username, String firstname, String lastname, String password) {
@@ -85,10 +91,10 @@ public class Author {
     }
 
     public List<Post> getPosts() {
-        return null;
+        return this.posts;
     }
 
     public void addPost(Post post) {
-        return;
+        this.posts.add(post);
     }
 }
